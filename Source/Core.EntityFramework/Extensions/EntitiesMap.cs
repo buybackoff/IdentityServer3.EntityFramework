@@ -13,6 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+using System;
 using AutoMapper;
 using System.Linq;
 using System.Security.Claims;
@@ -27,7 +28,8 @@ namespace IdentityServer3.EntityFramework.Entities
                 .ForMember(x => x.Claims, opts => opts.MapFrom(src => src.ScopeClaims.Select(x => x)));
             Mapper.CreateMap<Entities.ScopeClaim, IdentityServer3.Core.Models.ScopeClaim>(MemberList.Destination);
 
-            Mapper.CreateMap<Entities.ClientSecret, IdentityServer3.Core.Models.Secret>(MemberList.Destination);
+            Mapper.CreateMap<Entities.ClientSecret, IdentityServer3.Core.Models.Secret>(MemberList.Destination)
+                .ForMember(x => x.Expiration, opt => opt.MapFrom(y=> y.Expiration.HasValue ? new DateTimeOffset?(y.Expiration.Value) : null));
             Mapper.CreateMap<Entities.Client, IdentityServer3.Core.Models.Client>(MemberList.Destination)
                 .ForMember(x => x.UpdateAccessTokenClaimsOnRefresh, opt => opt.MapFrom(src => src.UpdateAccessTokenOnRefresh))
                 .ForMember(x => x.AllowAccessToAllCustomGrantTypes, opt => opt.MapFrom(src => src.AllowAccessToAllGrantTypes))

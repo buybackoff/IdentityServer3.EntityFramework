@@ -1,19 +1,20 @@
 ﻿using AutoMapper;
+using System;
 /*
- * Copyright 2014 Dominick Baier, Brock Allen
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+* Copyright 2014 Dominick Baier, Brock Allen
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*   http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -30,7 +31,8 @@ namespace IdentityServer3.Core.Models
                 .ForMember(x => x.ScopeClaims, opts => opts.MapFrom(src => src.Claims.Select(x => x)));
             Mapper.CreateMap<Models.ScopeClaim, Entities.ScopeClaim>(MemberList.Source);
 
-            Mapper.CreateMap<Models.Secret, Entities.ClientSecret>(MemberList.Source);
+            Mapper.CreateMap<Models.Secret, Entities.ClientSecret>(MemberList.Source)
+                .ForMember(x => x.Expiration, opt => opt.MapFrom(y => y.Expiration.HasValue ? new DateTime?(y.Expiration.Value.ToUniversalTime().DateTime) : null));
             Mapper.CreateMap<Models.Client, Entities.Client>(MemberList.Source)
                 .ForMember(x => x.UpdateAccessTokenOnRefresh, opt => opt.MapFrom(src => src.UpdateAccessTokenClaimsOnRefresh))
                 .ForMember(x => x.AllowAccessToAllGrantTypes, opt => opt.MapFrom(src => src.AllowAccessToAllCustomGrantTypes))

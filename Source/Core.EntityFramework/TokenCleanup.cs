@@ -97,7 +97,7 @@ namespace IdentityServer3.EntityFramework
                 {
                     var query =
                         from token in db.Tokens
-                        where token.Expiry < DateTimeOffset.UtcNow
+                        where token.Expiry < DateTime.UtcNow
                         select token;
 
                     db.Tokens.RemoveRange(query);

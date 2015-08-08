@@ -39,6 +39,6 @@ namespace IdentityServer3.EntityFramework.Entities
         public virtual string JsonCode { get; set; }
 
         [Required]
-        public virtual DateTimeOffset Expiry { get; set; }
+        public virtual DateTime Expiry { get; set; }
     }
 }

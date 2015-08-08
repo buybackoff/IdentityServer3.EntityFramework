@@ -38,24 +38,24 @@ namespace IdentityServer3.EntityFramework
 
         protected override void ConfigureChildCollections()
         {
-            this.Set<Client>().Local.CollectionChanged +=
-                delegate(object sender, NotifyCollectionChangedEventArgs e)
-                {
-                    if (e.Action == NotifyCollectionChangedAction.Add)
-                    {
-                        foreach (Client item in e.NewItems)
-                        {
-                            RegisterDeleteOnRemove(item.ClientSecrets);
-                            RegisterDeleteOnRemove(item.RedirectUris);
-                            RegisterDeleteOnRemove(item.PostLogoutRedirectUris);
-                            RegisterDeleteOnRemove(item.AllowedScopes);
-                            RegisterDeleteOnRemove(item.IdentityProviderRestrictions);
-                            RegisterDeleteOnRemove(item.Claims);
-                            RegisterDeleteOnRemove(item.AllowedCustomGrantTypes);
-                            RegisterDeleteOnRemove(item.AllowedCorsOrigins);
-                        }
-                    }
-                };
+            //this.Set<Client>().Local.CollectionChanged +=
+            //    delegate(object sender, NotifyCollectionChangedEventArgs e)
+            //    {
+            //        if (e.Action == NotifyCollectionChangedAction.Add)
+            //        {
+            //            foreach (Client item in e.NewItems)
+            //            {
+            //                RegisterDeleteOnRemove(item.ClientSecrets);
+            //                RegisterDeleteOnRemove(item.RedirectUris);
+            //                RegisterDeleteOnRemove(item.PostLogoutRedirectUris);
+            //                RegisterDeleteOnRemove(item.AllowedScopes);
+            //                RegisterDeleteOnRemove(item.IdentityProviderRestrictions);
+            //                RegisterDeleteOnRemove(item.Claims);
+            //                RegisterDeleteOnRemove(item.AllowedCustomGrantTypes);
+            //                RegisterDeleteOnRemove(item.AllowedCorsOrigins);
+            //            }
+            //        }
+            //    };
         }
 
         public DbSet<Client> Clients { get; set; }
@@ -82,6 +82,9 @@ namespace IdentityServer3.EntityFramework
                 .HasMany(x => x.AllowedCustomGrantTypes).WithRequired(x => x.Client).WillCascadeOnDelete();
             modelBuilder.Entity<Client>()
                 .HasMany(x => x.AllowedCorsOrigins).WithRequired(x => x.Client).WillCascadeOnDelete();
+
+            modelBuilder.Entity<ClientSecret>().Property(x => x.Expiration).HasPrecision(0);
+
 
             modelBuilder.Entity<ClientSecret>().ToTable(EfConstants.TableNames.ClientSecret, Schema);
             modelBuilder.Entity<ClientRedirectUri>().ToTable(EfConstants.TableNames.ClientRedirectUri, Schema);
