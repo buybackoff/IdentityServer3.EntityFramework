@@ -38,14 +38,14 @@ namespace IdentityServer3.EntityFramework
                 {
                     Key = key,
                     SubjectId = value.SubjectId,
+                    JsonCode = ConvertToJson(value),
                     ClientId = value.ClientId,
                     TokenType = tokenType
                 };
                 context.Tokens.Add(token);
             }
 
-            token.JsonCode = ConvertToJson(value);
-            token.Expiry = value.CreationTime.AddSeconds(value.LifeTime);
+            token.Expiry = value.CreationTime.AddSeconds(value.LifeTime).UtcDateTime;
 
             await context.SaveChangesAsync();
         }

@@ -35,7 +35,7 @@ namespace IdentityServer3.EntityFramework
                 SubjectId = value.SubjectId,
                 ClientId = value.ClientId,
                 JsonCode = ConvertToJson(value),
-                Expiry = DateTimeOffset.UtcNow.AddSeconds(value.Lifetime),
+                Expiry = DateTime.UtcNow.AddSeconds(value.Lifetime),
                 TokenType = this.tokenType
             };
 

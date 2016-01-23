@@ -26,7 +26,7 @@ namespace IdentityServer3.EntityFramework.Entities
         [StringLength(1000)]
         public virtual string Description { get; set; }
 
-        public virtual DateTimeOffset? Expiration { get; set; }
+        public virtual DateTime? Expiration { get; set; }
 
         [StringLength(250)]
         public virtual string Type { get; set; }

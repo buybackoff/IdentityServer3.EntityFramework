@@ -15,6 +15,7 @@
  */
 
 using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
@@ -35,9 +36,12 @@ namespace IdentityServer3.Core.Models
                     .ForMember(x => x.ScopeClaims, opts => opts.MapFrom(src => src.Claims.Select(x => x)))
                     .ForMember(x => x.ScopeSecrets, opts => opts.MapFrom(src => src.ScopeSecrets.Select(x => x)));
                 config.CreateMap<Models.ScopeClaim, Entities.ScopeClaim>(MemberList.Source);
-                config.CreateMap<Models.Secret, Entities.ScopeSecret>(MemberList.Source);
+                config.CreateMap<Models.Secret, Entities.ScopeSecret>(MemberList.Source)
+                .ForMember(x => x.Expiration, opt => opt.MapFrom(y => y.Expiration.HasValue ? new DateTime?(y.Expiration.Value.ToUniversalTime().DateTime) : null));
 
-                config.CreateMap<Models.Secret, Entities.ClientSecret>(MemberList.Source);
+                config.CreateMap<Models.Secret, Entities.ClientSecret>(MemberList.Source)
+                .ForMember(x => x.Expiration, opt => opt.MapFrom(y => y.Expiration.HasValue ? new DateTime?(y.Expiration.Value.ToUniversalTime().DateTime) : null));
+                
                 config.CreateMap<Models.Client, Entities.Client>(MemberList.Source)
                     .ForMember(x => x.UpdateAccessTokenOnRefresh, opt => opt.MapFrom(src => src.UpdateAccessTokenClaimsOnRefresh))
                     .ForMember(x => x.AllowAccessToAllGrantTypes, opt => opt.MapFrom(src => src.AllowAccessToAllCustomGrantTypes))
