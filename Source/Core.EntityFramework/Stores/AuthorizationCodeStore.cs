@@ -32,7 +32,7 @@ namespace IdentityServer3.EntityFramework
         {
             var efCode = new Entities.Token
             {
-                Key = key,
+                TokenKey = key,
                 SubjectId = code.SubjectId,
                 ClientId = code.ClientId,
                 JsonCode = ConvertToJson(code),

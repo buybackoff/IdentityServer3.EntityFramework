@@ -22,7 +22,7 @@ namespace IdentityServer3.EntityFramework.Entities
     public class Token
     {
         [Key, Column(Order = 0)]
-        public virtual string Key { get; set; }
+        public virtual string TokenKey { get; set; }
 
         [Key, Column(Order = 1)]
         public virtual TokenType TokenType { get; set; }
