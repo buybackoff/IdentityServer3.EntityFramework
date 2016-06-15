@@ -100,9 +100,10 @@ namespace IdentityServer3.EntityFramework
 
                 using (var db = CreateOperationalDbContext())
                 {
+                    var utcTime = DateTime.UtcNow;
                     var query =
                         from token in db.Tokens
-                        where token.Expiry < DateTime.UtcNow
+                        where token.Expiry < utcTime
                         select token;
 
                     db.Tokens.RemoveRange(query);
